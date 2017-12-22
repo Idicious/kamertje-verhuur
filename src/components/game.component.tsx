@@ -77,9 +77,11 @@ export class GameComponent extends React.Component<GameComponentProps> {
 
         if(validMove) {
             const adjacentRoom = this.getAdjacentRoom(roomX, roomY, clickedSide);
+            const adjacentCompleted = adjacentRoom.setWall(currentPlayer, oppositeSide);
 
-            adjacentRoom.setWall(currentPlayer, oppositeSide);
-            this.props.game.nextPlayer();
+            if(!clickedRoom.isComplete() && (!adjacentCompleted || !adjacentRoom.isComplete())) {
+                this.props.game.nextPlayer();
+            }
 
             const adjacentElement = this.getRoomElement(fieldElement, adjacentRoom.x, adjacentRoom.y);
 
