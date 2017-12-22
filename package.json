@@ -1,0 +1,29 @@
+{
+  "name": "kamertje-verhuur",
+  "version": "1.0.0",
+  "description": "Kamer verhuur spel Mendrix",
+  "main": "index.ts",
+  "scripts": {
+    "build": "webpack -d",
+    "start": "webpack-dev-server --hot --inline",
+    "serve": "npm run build && npm run start",
+    "test": "jasmine-ts"
+  },
+  "repository": "github:Idicious/kamertje-verhuur",
+  "keywords": [
+    "kamer",
+    "verhuur",
+    "medrix"
+  ],
+  "author": "David Sherman",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jasmine": "^2.8.2",
+    "jasmine": "^2.8.0",
+    "jasmine-ts": "^0.2.1",
+    "ts-loader": "^3.2.0",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7"
+  }
+}
