@@ -91,12 +91,25 @@ export class GameComponent extends React.Component<GameComponentProps> {
                 replaceComponent(adjacentElement, RoomComponent, {room: adjacentRoom});
 
                 this._playerList = replaceElement(this._playerList, this.getPlayerList());
+
+                if(this.props.game.isGameComplete()) {
+                    this.announceVictor();
+                }
             });
         }
     }
 
     private getRoomElement(el: Element, x: number, y: number): HTMLElement {
         return el.querySelector(`[data-id="${x}-${y}"]`);
+    }
+
+    
+
+    private announceVictor() {
+        setTimeout(() => {
+            const winner = this.props.game.getWinner();
+            alert(`The winner is ${winner.name}!`);
+        });
     }
 
     private getAdjacentRoom(x: number, y: number, side: Side): Room {

@@ -1,5 +1,6 @@
 import { Game } from '../../src/models/game';
 import { Player } from '../../src/models/player';
+import { Sides } from '../../src/types/sides';
 
 describe("Game class: ", () => {
     let game: Game;
@@ -94,5 +95,25 @@ describe("Game class: ", () => {
 
         game.removePlayer(player2);
         expect(game.players().length).toBe(2);
+    });
+
+    it("asserts the victor correctly", () => {
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+
+        game.start();
+        expect(game.isGameComplete()).toBe(false);
+        expect(game.getWinner()).toBe(null);
+
+        const rooms = [].concat.apply([], game.rooms());
+        rooms.forEach(room => {
+            room.setWall(player1, Sides.Bottom);
+            room.setWall(player1, Sides.Left);
+            room.setWall(player1, Sides.Right);
+            room.setWall(player1, Sides.Top);
+        });
+
+        expect(game.isGameComplete()).toBe(true);
+        expect(game.getWinner()).toBe(player1);
     });
 })

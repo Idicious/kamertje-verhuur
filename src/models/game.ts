@@ -41,7 +41,7 @@ export class Game {
      * @param width 
      * @param height 
      */
-    setDimensions(width: number, height: number) {
+    public setDimensions(width: number, height: number) {
         this._width = width;
         this._height = height;
     }
@@ -49,7 +49,7 @@ export class Game {
     /**
      * Moves the game to the next player
      */
-    nextPlayer() {
+    public nextPlayer() {
         if(this._gameActive) { 
             const nextIndex = ++this._playerIndex % this.players().length;
             this._currentPlayer = this.players()[nextIndex];
@@ -62,7 +62,7 @@ export class Game {
      * @param name 
      * @param color 
      */
-    addPlayer(player: Player) {
+    public addPlayer(player: Player) {
         if(!this._gameActive) {
             this._players.push(player);
         }
@@ -73,7 +73,7 @@ export class Game {
      * 
      * @param name 
      */
-    removePlayer(player: Player) {
+    public removePlayer(player: Player) {
         if(!this._gameActive) {
             this._players = this._players.filter(p => p !== p);
         }
@@ -85,7 +85,7 @@ export class Game {
      * @param width 
      * @param height 
      */
-    start() {
+    public start() {
         if(!this._gameActive && this._players.length > 1) {
             this.reset();
             this._gameActive = true;
@@ -96,11 +96,40 @@ export class Game {
     /**
      * Resets the playing field
      */
-    reset() {
+    public reset() {
         this._gameActive = false;
         this._playerIndex = 0;
         this._currentPlayer = null;
         this.initializeField()
+    }
+
+    public isGameComplete(): boolean {
+        return [].concat.apply([], this._rooms)
+            .every(r => r.isComplete());
+        
+    }
+    
+    public getWinner(): Player {
+        if(!this.isGameComplete()) {
+            return null;
+        }
+
+        const rooms = [].concat.apply([], this._rooms);
+
+        let topScore = 0;
+        let topPlayer = null;
+
+        for(let i = 0; i < this._players.length; i++) {
+            const player = this._players[i];
+            const score =  rooms.filter(r => r.owner() === player).length;
+
+            if(score > topScore) {
+                topScore = score;
+                topPlayer = player;
+            }
+        }
+
+        return topPlayer;
     }
 
     private initializeField() {
